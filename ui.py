@@ -25,7 +25,7 @@ def overwrite_files_preference_changed():
 
 
 def header_overwrite_preference_changed():
-    shuffler.HEADER_OVERWRITE = fileOverwritePreference.get()
+    shuffler.HEADER_OVERWRITE = headerOverwritePreference.get()
 
 
 def get_file_name():
@@ -82,9 +82,8 @@ headerOverwritePreference = BooleanVar()
 headerOverwritePreferenceButton = Checkbutton(window, text='Overwrite game headers to "?" (irreversible)', variable=headerOverwritePreference, state='disabled', command=header_overwrite_preference_changed)
 headerOverwritePreferenceButton.place(x=20, y=135)
 
-scriptStartButton = Button(window, text='Shuffle!', fg='black', height= 2, width=24, state='disabled')
+scriptStartButton = Button(window, text='Shuffle!', fg='black', height= 2, width=24, state='disabled', command=shuffler.wrapper)
 scriptStartButton.place(x=70, y=170)
-scriptStartButton.bind('<Button-1>', shuffler.shuffle)
 
 window.title('PGN Shuffler')
 window.geometry('365x240+10+20')
