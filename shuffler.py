@@ -2,6 +2,7 @@ import random as rnd
 from tkinter import messagebox as mb
 import chess.pgn as pgn
 import os
+import itertools
 
 
 FILENAMES = None
@@ -28,16 +29,14 @@ def __shuffle():
         
         rnd.shuffle(games)
         allGames.append(games)
-    print(HEADER_OVERWRITE)
     
     if MERGE_FILES:
-        allGamesMerged = sum(allGames)
-        newFile = open(f'{os.path.dirname(FILENAMES[0])}merged{os.path.splitext(FILENAMES[0])[1]}', 'w', encoding='utf-8')        
+        allGamesMerged = itertools.chain.from_iterable(allGames)
+        newFile = open(f'{os.path.dirname(FILENAMES[0])}{os.sep}merged{os.path.splitext(FILENAMES[0])[1]}', 'w', encoding='utf-8')        
         exporter = pgn.FileExporter(newFile)
         for game in allGamesMerged:
             if HEADER_OVERWRITE:
-                for header in game.headers:
-                    game.headers[header] = '?'
+                game = __overwrite_headers(game)
             game.accept(exporter)
         return
 
@@ -47,8 +46,7 @@ def __shuffle():
             exporter = pgn.FileExporter(newFile)
             for game in games:
                 if HEADER_OVERWRITE:
-                    for header in game.headers:
-                        game.headers[header] = '?'
+                    game = __overwrite_headers(game)
                 game.accept(exporter)
         return
     else:
@@ -57,10 +55,17 @@ def __shuffle():
             exporter = pgn.FileExporter(newFile)
             for game in games:
                 if HEADER_OVERWRITE:
-                    for header in game.headers:
-                        game.headers[header] = '?'
+                    game = __overwrite_headers(game)
                 game.accept(exporter)
         return
 
-def __overwrite_header(header):
-    pass #TODO
+def __overwrite_headers(game):
+    game.headers['Event'] = '?'
+    game.headers['Site'] = '?'
+    game.headers['Date'] = '????.??.??'
+    game.headers['Round'] = '?'
+    game.headers['White'] = '?'
+    game.headers['Black'] = '?'
+    game.headers['Result'] = '*'
+    
+    return game
