@@ -1,7 +1,7 @@
 # Chess-PGN-Shuffler
 Small program in python to shuffle and merge all of your chess games.
 
-[]!(misc/shuffler.png)
+![](./misc/shuffler.png)
 
 ## Installation
 [Pre-built binaries](https://github.com/publicvoid1337/Chess-PGN-Shuffler/releases) are available for Windows and Linux, but you can also choose to compile from source.
